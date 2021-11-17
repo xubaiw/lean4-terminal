@@ -47,6 +47,24 @@ def lightWhite    (layer : Layer := foreground) : Csi := singleValue "15" layer
 
 def reset (layer : Layer := foreground) : Csi := if layer = foreground then ⟨ "39m" ⟩ else  ⟨ "49m" ⟩ 
 
+def black'          : Csi := black background
+def red'            : Csi := red background
+def green'          : Csi := green background
+def yellow'         : Csi := yellow background
+def blue'           : Csi := blue background
+def magenta'        : Csi := magenta background
+def cyan'           : Csi := cyan background
+def white'          : Csi := white background
+def lightBlack'     : Csi := lightBlack background
+def lightRed'       : Csi := lightRed background
+def lightGreen'     : Csi := lightGreen background
+def lightYellow'    : Csi := lightYellow background
+def lightBlue'      : Csi := lightBlue background
+def lightMagenta'   : Csi := lightMagenta background
+def lightCyan'      : Csi := lightCyan background
+def lightWhite'     : Csi := lightWhite background
+def reset'          : Csi := reset background
+
 end Color
 
 namespace Cursor
