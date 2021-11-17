@@ -17,7 +17,7 @@ def untilNewline : Csi := ⟨ "K" ⟩
 
 end Clear
 
-namespace Csi
+namespace Color
 
 private def singleValue (v : String) (foreground : Bool) : Csi := if foreground then ⟨ s!"38;5;{v}m" ⟩ else ⟨ s!"48;5;{v}m" ⟩
 
@@ -40,7 +40,7 @@ def lightWhite    (foreground : Bool := true) : Csi := singleValue "15" foregrou
 
 def reset (foreground : Bool := true) : Csi := if foreground then ⟨ "39m" ⟩ else  ⟨ "49m" ⟩ 
 
-end Csi
+end Color
 
 namespace Cursor
 
