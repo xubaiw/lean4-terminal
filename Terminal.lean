@@ -19,26 +19,33 @@ end Clear
 
 namespace Color
 
-private def singleValue (v : String) (foreground : Bool) : Csi := if foreground then ⟨ s!"38;5;{v}m" ⟩ else ⟨ s!"48;5;{v}m" ⟩
+inductive Layer
+  | foreground
+  | background
+  deriving DecidableEq
 
-def black         (foreground : Bool := true) : Csi := singleValue  "0" foreground
-def red           (foreground : Bool := true) : Csi := singleValue  "1" foreground
-def green         (foreground : Bool := true) : Csi := singleValue  "2" foreground
-def yellow        (foreground : Bool := true) : Csi := singleValue  "3" foreground
-def blue          (foreground : Bool := true) : Csi := singleValue  "4" foreground
-def magenta       (foreground : Bool := true) : Csi := singleValue  "5" foreground
-def cyan          (foreground : Bool := true) : Csi := singleValue  "6" foreground
-def white         (foreground : Bool := true) : Csi := singleValue  "7" foreground
-def lightBlack    (foreground : Bool := true) : Csi := singleValue  "8" foreground
-def lightRed      (foreground : Bool := true) : Csi := singleValue  "9" foreground
-def lightGreen    (foreground : Bool := true) : Csi := singleValue "10" foreground
-def lightYellow   (foreground : Bool := true) : Csi := singleValue "11" foreground
-def lightBlue     (foreground : Bool := true) : Csi := singleValue "12" foreground
-def lightMagenta  (foreground : Bool := true) : Csi := singleValue "13" foreground
-def lightCyan     (foreground : Bool := true) : Csi := singleValue "14" foreground
-def lightWhite    (foreground : Bool := true) : Csi := singleValue "15" foreground
+export Layer (foreground background)
 
-def reset (foreground : Bool := true) : Csi := if foreground then ⟨ "39m" ⟩ else  ⟨ "49m" ⟩ 
+private def singleValue (v : String) (layer : Layer) : Csi := if layer = foreground then ⟨ s!"38;5;{v}m" ⟩ else ⟨ s!"48;5;{v}m" ⟩
+
+def black         (layer : Layer := foreground) : Csi := singleValue  "0" layer
+def red           (layer : Layer := foreground) : Csi := singleValue  "1" layer
+def green         (layer : Layer := foreground) : Csi := singleValue  "2" layer
+def yellow        (layer : Layer := foreground) : Csi := singleValue  "3" layer
+def blue          (layer : Layer := foreground) : Csi := singleValue  "4" layer
+def magenta       (layer : Layer := foreground) : Csi := singleValue  "5" layer
+def cyan          (layer : Layer := foreground) : Csi := singleValue  "6" layer
+def white         (layer : Layer := foreground) : Csi := singleValue  "7" layer
+def lightBlack    (layer : Layer := foreground) : Csi := singleValue  "8" layer
+def lightRed      (layer : Layer := foreground) : Csi := singleValue  "9" layer
+def lightGreen    (layer : Layer := foreground) : Csi := singleValue "10" layer
+def lightYellow   (layer : Layer := foreground) : Csi := singleValue "11" layer
+def lightBlue     (layer : Layer := foreground) : Csi := singleValue "12" layer
+def lightMagenta  (layer : Layer := foreground) : Csi := singleValue "13" layer
+def lightCyan     (layer : Layer := foreground) : Csi := singleValue "14" layer
+def lightWhite    (layer : Layer := foreground) : Csi := singleValue "15" layer
+
+def reset (layer : Layer := foreground) : Csi := if layer = foreground then ⟨ "39m" ⟩ else  ⟨ "49m" ⟩ 
 
 end Color
 
