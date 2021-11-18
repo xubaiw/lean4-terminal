@@ -127,8 +127,20 @@ def blinkingUnderline : Csi := ⟨ "\x33 q" ⟩
 def steadyUnderline   : Csi := ⟨ "\x34 q" ⟩ 
 /-- Change the cursor style to blinking bar. -/
 def blinkingBar       : Csi := ⟨ "\x35 q" ⟩ 
-/-- CChange the cursor style to steady bar. -/
+/-- Change the cursor style to steady bar. -/
 def steadyBar         : Csi := ⟨ "\x36 q" ⟩ 
+
+/-- Move cursor up. -/
+def up    (n : UInt16) : Csi := ⟨ s!"{n}A" ⟩ 
+/-- Move cursor down. -/
+def down  (n : UInt16) : Csi := ⟨ s!"{n}B" ⟩ 
+/-- Move cursor right. -/
+def right (n : UInt16) : Csi := ⟨ s!"{n}C" ⟩ 
+/-- Move cursor left. -/
+def left  (n : UInt16) : Csi := ⟨ s!"{n}D" ⟩ 
+
+/-- Goto some position ((0,0)-based). -/
+def goto (x y : UInt16) : Csi := ⟨ s!"{x+1};{y+1}H" ⟩ 
 
 end Cursor
 
