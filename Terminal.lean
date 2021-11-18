@@ -32,43 +32,53 @@ inductive Layer
 
 export Layer (foreground background)
 
-private def singleValue (v : String) (layer : Layer) : Csi := if layer = foreground then ⟨ s!"38;5;{v}m" ⟩ else ⟨ s!"48;5;{v}m" ⟩
+/-- An arbitrary ANSI color value. -/
+def ansi (v : String) (layer : Layer := foreground) : Csi := if layer = foreground then ⟨ s!"38;5;{v}m" ⟩ else ⟨ s!"48;5;{v}m" ⟩
 
 /-- Black. -/
-def black         (layer : Layer := foreground) : Csi := singleValue  "0" layer
+def black         (layer : Layer := foreground) : Csi := ansi  "0" layer
 /-- Red. -/
-def red           (layer : Layer := foreground) : Csi := singleValue  "1" layer
+def red           (layer : Layer := foreground) : Csi := ansi  "1" layer
 /-- Green. -/
-def green         (layer : Layer := foreground) : Csi := singleValue  "2" layer
+def green         (layer : Layer := foreground) : Csi := ansi  "2" layer
 /-- Yellow. -/
-def yellow        (layer : Layer := foreground) : Csi := singleValue  "3" layer
+def yellow        (layer : Layer := foreground) : Csi := ansi  "3" layer
 /-- Blue. -/
-def blue          (layer : Layer := foreground) : Csi := singleValue  "4" layer
+def blue          (layer : Layer := foreground) : Csi := ansi  "4" layer
 /-- Magenta. -/
-def magenta       (layer : Layer := foreground) : Csi := singleValue  "5" layer
+def magenta       (layer : Layer := foreground) : Csi := ansi  "5" layer
 /-- Cyan. -/
-def cyan          (layer : Layer := foreground) : Csi := singleValue  "6" layer
+def cyan          (layer : Layer := foreground) : Csi := ansi  "6" layer
 /-- White. -/
-def white         (layer : Layer := foreground) : Csi := singleValue  "7" layer
+def white         (layer : Layer := foreground) : Csi := ansi  "7" layer
 /-- High-intensity light black. -/
-def lightBlack    (layer : Layer := foreground) : Csi := singleValue  "8" layer
+def lightBlack    (layer : Layer := foreground) : Csi := ansi  "8" layer
 /-- High-intensity light red. -/
-def lightRed      (layer : Layer := foreground) : Csi := singleValue  "9" layer
+def lightRed      (layer : Layer := foreground) : Csi := ansi  "9" layer
 /-- High-intensity light green. -/
-def lightGreen    (layer : Layer := foreground) : Csi := singleValue "10" layer
+def lightGreen    (layer : Layer := foreground) : Csi := ansi "10" layer
 /-- High-intensity light yellow. -/
-def lightYellow   (layer : Layer := foreground) : Csi := singleValue "11" layer
+def lightYellow   (layer : Layer := foreground) : Csi := ansi "11" layer
 /-- High-intensity light blue. -/
-def lightBlue     (layer : Layer := foreground) : Csi := singleValue "12" layer
+def lightBlue     (layer : Layer := foreground) : Csi := ansi "12" layer
 /-- High-intensity light magenta. -/
-def lightMagenta  (layer : Layer := foreground) : Csi := singleValue "13" layer
+def lightMagenta  (layer : Layer := foreground) : Csi := ansi "13" layer
 /-- High-intensity light cyan. -/
-def lightCyan     (layer : Layer := foreground) : Csi := singleValue "14" layer
+def lightCyan     (layer : Layer := foreground) : Csi := ansi "14" layer
 /-- High-intensity light white. -/
-def lightWhite    (layer : Layer := foreground) : Csi := singleValue "15" layer
+def lightWhite    (layer : Layer := foreground) : Csi := ansi "15" layer
 
 /-- Reset colors to defaults. -/
 def reset (layer : Layer := foreground) : Csi := if layer = foreground then ⟨ "39m" ⟩ else  ⟨ "49m" ⟩ 
+
+/-- 216-color (r, g, b ≤ 5) RGB. -/
+def ansiRgb (r g b : Fin 5) (layer : Layer := foreground) : Csi := ansi s!"{16 + 36 * r + 6 * g + b}" layer
+
+/-- Grayscale color. -/
+def ansiGray (s : Fin 24) (layer : Layer := foreground) : Csi := ansi s!"{0xe8 + s}" layer
+
+/-- A truecolor RGB. -/
+def rgb (r g b : UInt8) (layer : Layer := foreground) : Csi := if layer = foreground then ⟨ s!"38;2;{r};{g};{b}m" ⟩ else  ⟨ s!"48;2;{r};{g};{b}m" ⟩ 
 
 /-- Black background. -/
 def black'          : Csi := black background
@@ -104,6 +114,15 @@ def lightCyan'      : Csi := lightCyan background
 def lightWhite'     : Csi := lightWhite background
 /-- Reset background colors to defaults. -/
 def reset'          : Csi := reset background
+
+/-- 216-color (r, g, b ≤ 5) RGB background. -/
+def ansiRgb' (r g b : Fin 5) : Csi := ansiRgb r g b background
+
+/-- Grayscale color background. -/
+def ansiGray' (s : Fin 24) : Csi := ansiGray s background
+
+/-- A truecolor RGB background. -/
+def rgb' (r g b : UInt8): Csi := rgb r g b background
 
 end Color
 
