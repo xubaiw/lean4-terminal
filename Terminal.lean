@@ -881,14 +881,14 @@ private constant size.prim : Unit → IO (UInt16 × UInt16)
 -/
 def size : IO (UInt16 × UInt16) := size.prim ()
 
-end Terminal
-
 /-- Queues the given command for further execution. -/
-def IO.FS.Stream.queue [Terminal.Command α] (cs : Array α) : IO Unit := do
+def queue [Terminal.Command α] (cs : Array α) : IO Unit := do
   cs.forM (Terminal.Command.writeAnsi · (← IO.getStdout))
 
 /-- Executes the given command directly. -/
-def IO.FS.Stream.execute [Terminal.Command α] (cs : Array α) : IO Unit := do
+def execute [Terminal.Command α] (cs : Array α) : IO Unit := do
   let out ← IO.getStdout
   cs.forM (Terminal.Command.writeAnsi · out)
   out.flush
+
+end Terminal
