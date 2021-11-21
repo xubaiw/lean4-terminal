@@ -137,7 +137,7 @@ instance : Command MoveLeft where
 structure SavePosition
 
 instance : Command SavePosition where
-  writeAnsi self f := f.putStr <| "\x1B7"
+  writeAnsi self f := f.putStr <| csi "s"
 
 /--
   A command that saves the current terminal cursor position.
@@ -152,7 +152,7 @@ instance : Command SavePosition where
 structure RestorePosition
 
 instance : Command RestorePosition where
-  writeAnsi self f := f.putStr <| "\x1B8"
+  writeAnsi self f := f.putStr <| csi "u"
 
 /--
   A command that hides the terminal cursor.
@@ -225,12 +225,12 @@ instance : Command SetCursorShape where
     | CursorShape.line        => "5 q"
     | CursorShape.block       => "2 q"
 
-/--
-  Returns the cursor position (column, row).
+-- /--
+--   Returns the cursor position (column, row).
 
-  The top left cell is represented `0,0`.
--/
-def position : IO (UInt16 × UInt16) := sorry
+--   The top left cell is represented `0,0`.
+-- -/
+-- def position : IO (UInt16 × UInt16) := sorry
 
 inductive KeyCode where
   | /-- Backspace key. -/
@@ -359,14 +359,14 @@ inductive Event
 
 -- TODO: add poll
 
-/--
-  Reads a single `Event`
+-- /--
+--   Reads a single `Event`
 
-  This function blocks until an `Event` is available. Combine it with the
-  `poll` function to get non-blocking reads.
+--   This function blocks until an `Event` is available. Combine it with the
+--   `poll` function to get non-blocking reads.
 
--/
-def read : IO Event := sorry
+-- -/
+-- def read : IO Event := sorry
 
 /--
   A command that enables mouse event capturing.
