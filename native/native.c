@@ -29,7 +29,7 @@ lean_obj_res lean_get_size(uint8_t u)
 
 lean_obj_res lean_get_is_tty(uint8_t u)
 {
-    return lean_io_result_mk_ok(isatty(STDOUT_FILENO));
+    return lean_io_result_mk_ok(lean_box(isatty(STDOUT_FILENO)));
 }
 
 // TODO: change to the windows style
@@ -86,25 +86,25 @@ lean_obj_res lean_initialize_terminal(uint8_t u)
     }
 }
 
-lean_obj_res lean_get_input(uint8_t u)
-{
-    char buf[32];
-    unsigned int i = 0;
-    if (write(STDOUT_FILENO, "\x1b[6n", 4) != 4)
-    {
-        return lean_io_result_mk_error(lean_mk_io_user_error(lean_mk_string("write")));
-    }
-    while (i < sizeof(buf) - 1)
-    {
-        if (read(STDIN_FILENO, &buf[i], 1) != 1)
-            break;
-        if (buf[i] == 'R')
-            break;
-        i++;
-    }
-    buf[i] = '\0';
+// lean_obj_res lean_get_input(uint8_t u)
+// {
+//     char buf[32];
+//     unsigned int i = 0;
+//     if (write(STDOUT_FILENO, "\x1b[6n", 4) != 4)
+//     {
+//         return lean_io_result_mk_error(lean_mk_io_user_error(lean_mk_string("write")));
+//     }
+//     while (i < sizeof(buf) - 1)
+//     {
+//         if (read(STDIN_FILENO, &buf[i], 1) != 1)
+//             break;
+//         if (buf[i] == 'R')
+//             break;
+//         i++;
+//     }
+//     buf[i] = '\0';
 
-}
+// }
 
 #else
 
